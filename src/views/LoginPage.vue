@@ -1,13 +1,15 @@
 <template>
     <div>
-
+        <div class="logo-container">
+            <img src="@/assets/x-logo.png" class="logo"/>
+        </div>
         <InputField :type="'text'" :placeholder="'Email'" :modelValue="email" v-model="email"/>
         <InputField :type="'password'" :placeholder="'Password'" :modelValue="password" />
 
-        <button class="login-button" @click="login">로그인하기</button>
+        <button class="button" @click="login">로그인하기</button>
         <div>
             계정이 없으신가요?
-            <span class="signup-button">가입하기</span>
+            <router-link to="/signup" class="signup-button">가입하기</router-link>
         </div>
     </div>
 </template>
@@ -34,16 +36,6 @@ export default {
 </script>
 
 <style scoped>
-.login-button {
-    border-radius: 20px;
-    border: 1px solid white;
-    font-size: 15px;
-    font-weight: bold;
-    margin: 10px 0px;
-    padding: 10px;
-    width: 100%;
-    cursor: pointer;
-}
 
 .signup-button {
     color: aqua;
