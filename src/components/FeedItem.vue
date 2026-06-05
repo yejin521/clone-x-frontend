@@ -1,29 +1,49 @@
 <template>
-  <div class="feed-item">
-    <div class="feed-content">
-      <span class="feed-id">{{ feed.id }}</span>
-      <p class="feed-text">{{ feed.content }}</p>
+  <div class="feed-container">
+    <div class="feed-header">
+      <div class="feed-content">{{ feed.content }}</div>
+      <button class="feed-delete-button" @click="handleClick(feed)">X</button>
     </div>
-    
-    <span class="delete-btn">X</span>
-    <div class="feed-user">{{ feed.user.name }}</div>
+    <div class="feed-name">{{ feed.user.name }}</div>
   </div>
 </template>
 
 <script>
+import { useFeedStore } from "@/store/feed";
 export default {
   name: "FeedItem",
+  data() {
+    return {
+        feedStore: useFeedStore()
+    }
+  },
   props: {
     feed: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    handleClick(feed) {
+      this.$confirm({
+        message: '정말 삭제하시겠습니까?',
+        button: {
+          no: '아뇨',
+          yes: '네'
+        },
+        callback: confirm => {
+          if (confirm) {
+            this.feedStore.removeFeed(feed.id);
+          }
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-.feed-item {
+.feed-container {
   position: relative;
   background-color: white;
   color: black;
@@ -37,32 +57,35 @@ export default {
   justify-content: space-between;
 }
 
-.feed-content {
+.feed-header {
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 15px;
 }
 
-.feed-id {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.feed-text {
-  margin: 0;
+.feed-content {
   font-size: 16px;
-  word-break: break-all;
-}
-
-.delete-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  cursor: pointer;
   font-weight: bold;
+  word-break: break-all;
+  text-align: left;
 }
 
-.feed-user {
+.feed-delete-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+  padding: 0 5px;
+}
+
+.feed-delete-button:hover {
+  color: red;
+}
+
+.feed-name {
   align-self: flex-end;
   font-size: 14px;
   color: #555;
