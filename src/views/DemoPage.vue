@@ -1,26 +1,39 @@
 <template>
   <div>
-    <p>현재 점수 : {{ score }}</p>
-    <div v-if="score >= 90">학점 : A</div>
-    <div v-else-if="score >= 80">학점 : B</div>
-    <div v-else-if="score >= 70">학점 : C</div>
-    <div v-else-if="score >= 60">학점 : D</div>
-    <div v-else>학점 : F</div>
+    <button @click="removeFirstItem">Remove First Item</button>
+    <button @click="removeLastItem">Remove Last Item</button>
+    <ul>
+      <ItemComponent v-for="(item,index) in items" :key="index" :item="item"/>
+    </ul>
   </div>
 </template>
 
 <script>
+import ItemComponent from "@/components/ItemComponent.vue";
 export default {
-    name: 'DemoPage',
-    data() {
-        return {
-            score: 85,
-        };
+  name: "DemoPage",
+  components: { ItemComponent },
+  data() {
+    return {
+      items: [
+        { id: 1, name: "Apple" },
+        { id: 2, name: "Banana" },
+        { id: 3, name: "Orange" },
+        { id: 4, name: "Data" },
+        { id: 5, name: "Elderberry" },
+      ],
+    };
+  },
+  methods: {
+    removeFirstItem() {
+      this.items.shift();
     },
-   
-}
+    removeLastItem() {
+      this.items.pop();
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>
